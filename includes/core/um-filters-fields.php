@@ -724,15 +724,15 @@ function um_profile_field_filter_xss_validation( $value, $data, $type = '' ) {
 
 			$arr = $data['options'];
 			if ( $option_pairs ) {
-				$arr = array_keys( $data['options'] );
+				$arr = array_flip( $data['options'] );
 			}
 
-			if ( ! empty( $arr ) && ! in_array( $value, array_map( 'trim', $arr ) ) && empty( $data['custom_dropdown_options_source'] ) ) {
+			if ( empty( $arr ) && empty( $data['custom_dropdown_options_source'] ) ) {
 				$value = '';
-			} else {
-				if ( $option_pairs ) {
-					$value = $data['options'][ $value ];
-				}
+			} elseif ( isset( $arr[$value] ) ) {
+				$value = $arr[$value];
+			} elseif ( in_array( $value, array_map( 'trim', $arr ) ) ) {
+				$value = trim( $value );
 			}
 		}
 	} elseif ( ! empty( $value ) && is_array( $value ) ) {
