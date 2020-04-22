@@ -2249,6 +2249,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 					break;
 
 				case '_public':
+					$active_plugins = UM()->dependencies()->get_active_plugins();
 					?>
 
 					<p><label for="_public"><?php _e( 'Privacy', 'ultimate-member' ) ?> <?php UM()->tooltip( __( 'Field privacy allows you to select who can view this field on the front-end. The site admin can view all fields regardless of the option set here.', 'ultimate-member' ) ); ?></label>
@@ -2258,6 +2259,15 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 							<option value="-1" <?php selected( -1, $this->edit_mode_value ); ?>><?php _e( 'Only visible to profile owner and admins', 'ultimate-member' ) ?></option>
 							<option value="-3" <?php selected( -3, $this->edit_mode_value ); ?>><?php _e( 'Only visible to profile owner and specific roles', 'ultimate-member' ) ?></option>
 							<option value="-2" <?php selected( -2, $this->edit_mode_value ); ?>><?php _e( 'Only specific member roles', 'ultimate-member' ) ?></option>
+							<?php if ( array_search('um-friends/um-friends.php', $active_plugins ) ) { ?>
+								<option value="-4" <?php selected( -4, $this->edit_mode_value ); ?>><?php _e( 'Only friends', 'ultimate-member' ) ?></option>
+							<?php } ?>
+							<?php if ( array_search('um-followers/um-followers.php', $active_plugins ) ) { ?>
+								<option value="-5" <?php selected( -5, $this->edit_mode_value ); ?>><?php _e( 'Only followers', 'ultimate-member' ) ?></option>
+							<?php } ?>
+							<?php if ( array_search('um-friends/um-friends.php', $active_plugins ) && array_search('um-followers/um-followers.php', $active_plugins ) ) { ?>
+								<option value="-6" <?php selected( -6, $this->edit_mode_value ); ?>><?php _e( 'Only friends and followers', 'ultimate-member' ) ?></option>
+							<?php } ?>
 						</select>
 					</p>
 

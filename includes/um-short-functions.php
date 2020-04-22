@@ -1640,6 +1640,51 @@ function um_can_view_field( $data ) {
 					}
 				}
 				break;
+			case '-4':
+				if ( ! is_user_logged_in() ) {
+					$can_view = false;
+				} else {
+					$active_plugins = UM()->dependencies()->get_active_plugins();
+					if ( ! array_search('um-friends/um-friends.php', $active_plugins ) && ! um_is_user_himself() ) {
+						$can_view = false;
+					} else {
+						if ( ! um_is_user_himself() ) {
+							if ( ! UM()->Friends_API()->api()->is_friend( get_current_user_id(), um_get_requested_user() ) ) {
+								$can_view = false;
+							}
+						}
+					}
+				}
+				break;
+			case '-5':
+				if ( ! is_user_logged_in() ) {
+					$can_view = false;
+				} else {
+					$active_plugins = UM()->dependencies()->get_active_plugins();
+					if ( ! array_search('um-followers/um-followers.php', $active_plugins ) && ! um_is_user_himself() ) {
+						$can_view = false;
+					} else {
+						if ( ! um_is_user_himself() ) {
+							if ( ! UM()->Followers_API()->api()->followed( um_get_requested_user(), get_current_user_id() ) ) {
+								$can_view = false;
+							}
+						}
+					}
+				}
+				break;
+			case '-6':
+				if ( ! is_user_logged_in() ) {
+					$can_view = false;
+				} else {
+					if ( ! um_is_user_himself() ) {
+						$active_plugins = UM()->dependencies()->get_active_plugins();
+						if ( ! array_search('um-friends/um-friends.php', $active_plugins ) || ! UM()->Friends_API()->api()->is_friend( get_current_user_id(), um_get_requested_user() )
+							|| ! array_search('um-followers/um-followers.php', $active_plugins ) || ! UM()->Followers_API()->api()->followed( um_get_requested_user(), get_current_user_id() ) ) {
+							$can_view = false;
+						}
+					}
+				}
+				break;
 			default:
 				$can_view = apply_filters( 'um_can_view_field_custom', $can_view, $data );
 				break;
