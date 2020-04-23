@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
 	
 	jQuery(document).on('click', '.um-popup-overlay', function(){
-
 		remove_Modal();
 	});
 	
@@ -9,7 +8,7 @@ jQuery(document).ready(function() {
 		um_remove_modal();
 	});
 
-	jQuery(document).on('click', 'a[data-modal^="um_"], span[data-modal^="um_"], .um-modal a', function(e){
+	jQuery(document).on('click', 'a[data-modal^="um_"], span[data-modal^="um_"]', function(e){
 		e.preventDefault();
 		return false;
 	});
